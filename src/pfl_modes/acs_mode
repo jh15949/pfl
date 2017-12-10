@@ -1,1 +1,17 @@
+#!/usr/bin/env python3
 
+import logging
+
+from pfl_types.datagram import Msg, RequestType
+from pfl_types.cmd_types import ADCSCmd, PowerCmd
+from pfl_servers.fast_socket import FastSocket
+from pfl_modes.base_mode import PFLMode
+
+SOCKET_PATH = '/tmp/mode/detumble'
+COMMS_SOCKET_PATH = '/tmp/comms'
+ADCS_SOCKET_PATH = '/tmp/adcs'
+POWER_SOCKET_PATH = '/tmp/power'
+
+logging.basicConfig(level=logging.INFO)
+class Detumble(PFLMode):
+    def start(self):
