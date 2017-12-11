@@ -46,7 +46,7 @@ class ACS(PFLMode):
                    CommsCmd.SEND_TLM_PKT
                 ).send_and_recv(SOCKET_PATH, ADCS_SOCKET_PATH) #obtain ground input
 
-                #check if send_becon valid??
+                #check if send_becon valid?
                 #    break
                 #    return to safe mode?
                 #check if maneuver complete? 
