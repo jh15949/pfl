@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+
+import logging
+import time
+
+from pfl_types.datagram import Msg, RequestType
+from pfl_types.cmd_types import ADCSCmd, PowerCmd
+from pfl_servers.fast_socket import FastSocket
+from pfl_modes.base_mode import PFLMode
+
+SOCKET_PATH = '/tmp/mode/ACS'
+COMMS_SOCKET_PATH = '/tmp/comms'
+ADCS_SOCKET_PATH = '/tmp/adcs'
+POWER_SOCKET_PATH = '/tmp/power'
+
+logging.basicConfig(level=logging.INFO)
+class ACS(PFLMode):
+    def start(self):
+    
+    #while loop till maneuver complete/ GET_STATE == desired , tolerance
+        low_power = Msg(
+            RequestType.COMMAND,
+            PowerCmd.LOW_POWER
+        ).send_and_recv(SOCKET_PATH, POWER_SOCKET_PATH)
+
+        if low_power:
+        # deactive attitude control by turning of coils?
+        
+        else:
+        #set control loop time
+        timeout = 300
+        timeout_start = time.time()
+        while time.time() < timeout_start + timeout:
+            
+            #get & record telemetry
+            telemetry_feeback = Msg(
+                RequestType.COMMAND,
+                ADCSCmd.GET_SUN_SENSOR_POS
+            ).send_and_recv(SOCKET_PATH, ADCS_SOCKET_PATH) 
+            
+            if telemetry_feeback is None: #will this work?
+            
+                #check receiver
+                send_beacon = Msg(
+                   RequestType.COMMAND,
+                   CommsCmd.SEND_TLM_PKT
+                ).send_and_recv(SOCKET_PATH, ADCS_SOCKET_PATH) #obtain ground input
+
+                #check if send_becon valid??
+                #    break
+                #    return to safe mode?
+                #check if maneuver complete? 
+                #    break
+                #    return to safe mode?
